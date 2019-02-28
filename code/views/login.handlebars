@@ -1,0 +1,32 @@
+<div class="title">
+	Event Management Database
+</div>
+<div class="intro-outer">
+	<div class="intro-inter">
+	<span style="font-size:20px;color:#4da6ff">The event management database</span> allows you and your group to track the expenses for the events you participated in. 
+	It helps you to work out how much your share is and how much you should pay or receive.
+	<br>
+	Please log on or create a new account to access the database.
+	<br>
+	</div>
+</div>
+<div class="outerDiv">
+	<div class="signupDiv"> 
+		<form class="signUpContent" action="/login" method="post">
+ 			<h3 class="form-signup-heading">Please Signup</h2>
+ 			<input type="text" class="form-control" placeholder="First Name" name="First_Name" required />
+ 			<input type="text" class="form-control"  placeholder="Last Name" name="Last_Name" required />
+ 			<input type="email" class="form-control" placeholder="Email Address" name = "Email" required/>
+      <input type="number" class="form-control"  placeholder="Phone Number" name= "Phone" required/>
+ 			<button type="submit" class="sign-up-button">Sign Up</button>
+  		</form>	
+	</div>
+	<div class="loginDiv">
+		<form class="loginContent" action="login/email" method="get">
+ 			<h3 class="form-login-heading">Please login</h2>
+ 			<input type="email" class="form-control" placeholder="Email Address" name = "Email" required/>
+			<button type="submit" class="login-button">Login</button>
+  		</form>	
+	</div>
+	<div style="clear: both;"></div>
+</div>

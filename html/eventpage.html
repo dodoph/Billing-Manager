@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Event</title>
+	<link rel="stylesheet" type="text/css" href="style.css">	
+</head>
+<body>
+	<div class="title">
+		{{eventName}}
+	</div>
+	<div class="event" align="center">
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Category</th>
+					<th>Location</th>
+					<th>Participate</th>
+					<th>Total Expense</th>
+					<th>Event Share</th>
+					<th>Status</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>lunch</td>
+					<td>Food</td>
+					<td>Portland</td>
+					<td>4</td>
+					<td>60.00</td>
+					<td>15</td>
+					<td>open</td>
+					
+					<th><a class = 'button' href="#popup1">Edit</button></th>
+
+					<div id="popup1" class="overlay">
+						<div class="popup">
+							<h2>Edit your event</h2>
+							<a class="close" href="#">×</a>
+							<div class="content">
+								<form>
+									<label><b>Name</b></label>
+      								<input type="text" name="Name"><br>
+      								<label><b>Category</b></label>
+									<select name="Category">
+										<option value="food">Food</option>
+										<option value="travel">Travel</option>
+										<option value="housing">Housing</option>
+										<option value="entertainment">Entertainment</option>
+										<option value="equipment">equipment</option>
+						            	<option value="other">Other</option>
+									</select>
+									<b>
+      								<label><b>Location</b></label>
+     								<input type="text" name="Location" ><br>
+     								<button onclick="editEvent{{id}}">Edit</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="event-outerDiv">
+		<div class="addItem">
+			<form>
+				<h2>Add Your Item</h2>
+				<label><b>Description</b></label>
+      			<input type="text" name="Description"><br>
+      			<label><b>Quantity</b></label>
+      			<input type="number" name="Quanity" ><br>
+      			<label><b>Invoice Amount</b></label>
+     			<input type="number" step="0.01" name="Invoice_Amount" ><br>
+     			<button type="submit">Add</button>
+			</form>
+		</div>
+		<div class="inviteFriend">
+			<form>
+				<h2>Invite Your friends</h2>
+				<label><b>Email</b></label>
+      			<input type="email" name="Email"><br>
+      			<button type="submit">Send Invite</button>
+			</form>
+			
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+
+	<h2 align="center">Item:</h2>
+	<div class="items" align="center">
+		<table>
+			<thead>
+				<tr>
+					<th>Description</th>
+					<th>Payer</th>
+					<th>Quantity</th>
+					<th>Invocie Amount</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>sandwich</th>
+					<th>Jessie Tang</th>
+					<th>2</th>
+					<th>20</th>
+					<th><button onclick="editItem{{id}}">Edit</button></th>
+					<th><button onclick="deletItem{{id}}">Delete</button></th>
+				</tr>
+				<tr>
+					<th>drink</th>
+					<th>Chen Zou</th>
+					<th>2</th>
+					<th>10</th>
+					<th><button onclick="editItem{{id}}">Edit</button></th>
+					<th><button onclick="deletItem{{id}}">Delete</button></th>
+				</tr>
+				<tr>
+					<th>Fruit</th>
+					<th>John Smith</th>
+					<th>4</th>
+					<th>20</th>
+					<th><button onclick="editItem{{id}}">Edit</button></th>
+					<th><button onclick="deletItem{{id}}">Delete</button></th>
+				</tr>
+				<tr>
+					<th>wine</th>
+					<th>Jessie Tang</th>
+					<th>1</th>
+					<th>10</th>
+					<th><button onclick="editItem{{id}}">Edit</button></th>
+					<th><button onclick="deletItem{{id}}">Delete</button></th>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<h2 align="center">Participates:</h2>
+	<div class="participates" align="center">
+		<table>
+			<thead>
+				<tr>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>Jessie</th>
+					<th>Tang</th>
+					<th><button onclick="deletParticipate{{id}}">Delete</button></th>
+				</tr>
+				<tr>
+					<th>Chen</th>
+					<th>Zou</th>
+					<th><button onclick="deletParticipate{{id}}">Delete</button></th>
+				</tr>
+				<tr>
+					<th>John</th>
+					<th>Smith</th>
+					<th><button onclick="deletParticipate{{id}}">Delete</button></th>
+				</tr>
+				<tr>
+					<th>Willim</th>
+					<th>Lee</th>
+					<th><button onclick="deletParticipate{{id}}">Delete</button></th>
+				</tr>
+			</tbody>
+		</table>
+	</div> 		
+	
+</body>
