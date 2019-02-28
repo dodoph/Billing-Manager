@@ -5,11 +5,11 @@
 	</div>
 	<h2 class="event-heading"> Create Your Event</h2>
 	<div class="createEvent" align="center">
-		<form id="creat-evemt" action="/home" method="post">
+		<form id="creat-event" action="/home" method="post">
 			<label><b>Event Name</b></label>
-			<input type="text" name="Name">
+			<input type="text" name="eName">
 			<label style="margin-left:15px;"><b>Category</b></label>
-			<select name="Category">
+			<select name="category">
 				<option value="food">Food</option>
 				<option value="travel">Travel</option>
 				<option value="housing">Housing</option>
@@ -18,7 +18,7 @@
             	<option value="other">Other</option>
 			</select>
 			<label style="margin-left:15px;"><b>Location</b></label>
-			<input type="text" name="Location"><br><br>
+			<input type="text" name="location"><br><br>
 			<button class="eventpage-button" type="submit" value="Create"> Create </button>
 		</form>
 	</div>
@@ -26,8 +26,9 @@
  
 	<div class="event-search" align="center" style="margin-bottom: 15px">
 		<input type="text" placeholder="Enter event name" required>
-    	<button class="eventpage-button" onclick="search()">Search</button>
-    	<select style="margin-left: 15px;">
+    	<button class="eventpage-button" onclick="searchEvent()">Search</button>
+
+        <select style="margin-left: 15px;">
             <option value="food">Food</option>
 			<option value="travel">Travel</option>
 			<option value="housing">Housing</option>
@@ -36,7 +37,7 @@
             <option value="other">Other</option>
         </select>
        
-    	<button class="eventpage-button" onclick="filterByCategory()">Filter</button><br>
+    	<button class="eventpage-button" onclick="filterByCategory()">Filter by Category</button><br>
 	</div>
 
 	<div class="yourEvents" align="center">
@@ -53,18 +54,22 @@
 					<th>&nbsp;</th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-					<td>lunch</td>
-					<td>Food</td>
-					<td>Portland</td>
-					<td>4</td>
-					<td>60.00</td>
-					<td>15.00</td>
-					<td>open</td>
-					<td><a href="/event/1?user_id={{user_id}}">Enter</td>
-				</tr>
-			</tbody>
+            <tbody>
+            {{#each myEvent}}
+                <tr>
+                    <td>{{Name}}</td>
+                    <td>{{Category}}</td>
+                    <td>{{Location}}</td>
+                    <td>{{Participates}}</td>
+                    <td>{{Total_Expense}}</td>
+                    <td>{{Event_Share}}</td>
+                    <td>{{Status_Open}}</td>
+                    <td><a href="/event/1?user_id={{user_id}}">Enter</td>
+                </tr>
+            {{else}}
+            <b>You currently have no event!</b>
+            {{/each}}
+            </tbody>
 		</table>
 	</div>
 	<h2 class="event-heading">Your Event Statements</h2>
@@ -78,11 +83,13 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>lunch</td>
-					<td>30</td>
-					<td>-15</td>
-				</tr>
+            {{#each myEvent}}
+                <tr>
+                    <td>{{Event_ID}}</td>
+                    <td>{{Event_Paid}}</td>
+                    <td>{{Event_Balance}}</td>
+                </tr>
+            {{/each}}
 			</tbody>
 		</table>	
 	</div>
