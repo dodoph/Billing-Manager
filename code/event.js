@@ -65,7 +65,7 @@ module.exports = function(){
     	var mysql = req.app.get('mysql');
     	getEvent(res, mysql, context, req.params.event_id, complete);
     	getItems(res, mysql, context, req.params.event_id, complete);
-    	getParticipates(res, mysql, context, req.query.user_id, complete);
+    	getParticipates(res, mysql, context, req.params.event_id, complete);
     	function complete(){
     		callback++;
     		if(callback >= 3){
@@ -89,7 +89,7 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.end();
             }else{
-                res.redirect('/event/' + req.params.event_id + '?'+req.query.user_id);
+                res.redirect('/event/' + req.params.event_id + '?user_id='+req.query.user_id);
             }
         });
     });
@@ -107,7 +107,6 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.end();
             }else{
-            	console.log('/event/' + req.params.event_id + '?user_id='+ req.query.user_id);
                 res.redirect('/event/' + req.params.event_id + '?user_id='+ req.query.user_id);
             }
         });
