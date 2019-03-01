@@ -2,8 +2,21 @@ module.exports = function(){
 	var express = require('express');
     var router = express.Router();
 
-    function getMyEvent(res, mysql, context, complete){
-        mysql.pool.query("SELECT * FROM Event e INNER JOIN User_Event ue ON ue.Event_ID = e.Event_ID WHERE ue.User_ID =?";
+    function getMyEvent(res, mysql, context, id, complete){
+        var query = "SELECT * FROM Event e INNER JOIN User_Event ue ON ue.Event_ID = e.Event_ID WHERE ue.User_ID =?";
+        var inserts = [id];
+        mysql.pool.query(sql, inserts, function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.myEvent  = results;
+            complete();
+        });
+    }
+
+    function getStatement(res, mysql, context, id, complete){
+        var query = "SELECT Event_ID, Event_Paid, Event_Balance FROM Statement WHERE User_ID =?";
         var inserts = [id];
         mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
@@ -16,10 +29,12 @@ module.exports = function(){
     }
 
 
-    function searchEvent(req, res, mysql, context, complete) {
-        var query = "SELECT * FROM Event WHERE name LIKE " + mysql.pool.escape('%' + req.params.s + '%');
+    function searchEvent(req, res, mysql, context, id, complete) {
+        var query = "SELECT * FROM Event e INNER JOIN User_Event ue ON ue.Event_ID = e.Event_ID WHERE ue.User_ID =? AND name LIKE "
+			+ mysql.pool.escape('%' + req.params.s + '%');
         /*var query = "SELECT * FROM Event WHERE SOUNDEX(name) = " + SOUNDEX(mysql.pool.escape(req.params.s));*/
-        mysql.pool.query(query, function(error, results, fields){
+        var inserts = [id];
+		mysql.pool.query(query, inserts, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -29,8 +44,8 @@ module.exports = function(){
         });
     }
 
-    function filterByCategory(res, mysql, context, complete){
-        mysql.pool.query("SELECT * FROM Event e INNER JOIN User_Event ue ON ue.Event_ID = e.Event_ID " +
+    function filterByCategory(res, mysql, context, id, complete){
+        var query = "SELECT * FROM Event e INNER JOIN User_Event ue ON ue.Event_ID = e.Event_ID " +
 			"WHERE ue.User_ID =? AND e.Category =?";
 
         var inserts = [id, req.body.category];
@@ -54,16 +69,16 @@ module.exports = function(){
 
 
     /*Display all event associated to the user*/
-
     router.get('/home', function(req, res){
         var callbackCount = 0;
         var context = {};
         context.jsscripts = ["filterByCategory.js","searchEvent.js"];
         var mysql = req.app.get('mysql');
-        getMyEvent(res, mysql, context, complete);
+        getMyEvent(res, mysql, context, req.params.id, complete);
+        getStatement(res, mysql, context, req.params.id, complete);
         function complete(){
             callbackCount++;
-            if(callbackCount >= 1){
+            if(callbackCount >= 2){
                 res.render('home', context);
             }
         }
@@ -75,8 +90,7 @@ module.exports = function(){
         var context = {};
         context.jsscripts = ["filterByCategory.js","searchEvent.js"];
         var mysql = req.app.get('mysql');
-        filterByCategory(req,res, mysql, context, complete);
-        getPlanets(res, mysql, context, complete);
+        filterByCategory(req,res, mysql, context, req.params.id, complete);
         function complete(){
             callbackCount++;
             if(callbackCount >= 1){
@@ -91,7 +105,7 @@ module.exports = function(){
         var context = {};
         context.jsscripts = ["filterByCategory.js","searchEvent.js"];
         var mysql = req.app.get('mysql');
-        searchEvent(req, res, mysql, context, complete);
+        searchEvent(req, res, mysql, context, req.params.id, complete);
         function complete(){
             callbackCount++;
             if(callbackCount >= 1){
