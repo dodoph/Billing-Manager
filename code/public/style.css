@@ -7,21 +7,26 @@
 }
 
 #bootstrap-overrides .temp-bg {
-	background-color: #4da6ff !important;
+  background-color: #4da6ff !important;
 }
 
 #bootstrap-overrides .temp-nav {
-	color: #fff !important;
+  color: #fff !important;
 }
 
+
+/*#bootstrap-overrides .topnav-right {
+  float:right;
+}
+*/
  
 .title {
-	background: white;
-	width: 100%;
-	text-align: center;
-	font-size: 50px;
-	color:#b3b3b3;
-	margin: 50px auto;	
+  background: white;
+  width: 100%;
+  text-align: center;
+  font-size: 50px;
+  color:#b3b3b3;
+  margin: 50px auto;  
 }
 
 .intro-inter {
@@ -37,12 +42,12 @@
 }
 
 .outerDiv{
-	color: #fff;
-	height: 280px;
-	width: 600px;
-	margin: 0px auto;
-	margin-top: 50px;
-  	margin-bottom: 50px;	
+  color: #fff;
+  height: 280px;
+  width: 600px;
+  margin: 0px auto;
+  margin-top: 50px;
+    margin-bottom: 50px;  
 }
 
 .signUpContent {
@@ -56,38 +61,38 @@
 }
 
 .form-signup-heading {
-	color: #4da6ff;
-	margin-bottom: 20px;
+  color: #4da6ff;
+  margin-bottom: 20px;
 }
 
 .form-control {
-	position: relative;
-	font-size: 16px;
-	height: auto;
-	padding: 10px;
-	@include box-sizing(border-box);
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+  @include box-sizing(border-box);
 
-	&:focus {
-		z-index: 2;
-	}
+  &:focus {
+    z-index: 2;
+  }
 }
 
 input[type="text"] {
-	margin-bottom: 10px;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
+  margin-bottom: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 input[type="email"] {
-	margin-bottom: 20px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
+  margin-bottom: 20px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 input[type="number"] {
-	margin-bottom: 10px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .loginContent {
@@ -103,62 +108,64 @@ input[type="number"] {
 }
 
 .form-login-heading {
-	color: #4da6ff;
-	margin-bottom: 20px;
+  color: #4da6ff;
+  margin-bottom: 20px;
 }
 
 .sign-up-button {
-	color: #fff;
+  color: #fff;
     background-color: #4da6ff;
     border-color: #357ebd;
 }
 
 .login-button {
-	color: #fff;
+  color: #fff;
     background-color: #4da6ff;
     border-color: #357ebd;
 }
 
 .eventpage-button {
-	color: #fff;
+  color: #fff;
     background-color: #4da6ff;
     border-color: #357ebd;
 }
 
 table {
-	border-style: solid;
-	border-width: thin;
+  border-style: solid;
+  border-width: thin;
+  border: 1px solid black;
 
 }
 
 th {
-	background: #efefef;
+  background: #efefef;
+  border: 1px solid black;
 }
 
 
 .event-outerDiv{
-	color: #fff;
-	height: 200px;
-	width: 600px;
-	margin: 50px auto;
+  color: #fff;
+  height: 200px;
+  width: 600px;
+  margin: 50px auto;
 }
 
 .addItem  {
-	background-color: #efefef;
-	text-align: center;
-	color: #000;
-	height: 200px;
-	width: 48%;
-	float: left;
+  background-color: #efefef;
+  text-align: center;
+  color: #000;
+  height: 200px;
+  width: 48%;
+  float: left;
 }
 
 .inviteFriend{
-	background-color: #efefef;
-	text-align: center;
-	color: #000;
-	height: 200px;
-	width: 48%;
-	float: right;
+  background-color: #efefef;
+  text-align: center;
+  color: #000;
+  height: 200px;
+  width: 48%;
+  float: right;
 }
 
 
@@ -174,11 +181,26 @@ th {
   text-align: center;
 }
 
+.event-header {
+  /*width: 75%;*/
+  padding: 20px;
+  margin-top: 20px;
+}
+
+#back-to-home {
+  position: absolute;
+  right: 20px;
+  margin-bottom: 20px;
+}
+
+.event {
+  margin-top: 20px;
+}
 
 .event-heading {
-	color: #4da6ff;
-	margin-bottom: 20px;
-	text-align: center;
+  color: #4da6ff;
+  margin-bottom: 20px;
+  text-align: center;
 
 }
 
@@ -236,6 +258,4 @@ th {
     width: 70%;
   }
 }
-
-
 
