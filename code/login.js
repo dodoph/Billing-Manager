@@ -34,7 +34,7 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.end();
             }else{
-                res.redirect('/home');
+                res.redirect('/login');
             }
 		});
 	});
@@ -58,8 +58,6 @@ module.exports = function(){
 		}
 		
 	});
-
-/**https://stackoverflow.com/questions/53797147/sending-query-params-forth-to-another-page-with-post-in-node-js-and-express*/
 
 	return router;
 }();

@@ -24,7 +24,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/login', require('./login.js'));
 app.use('/home', require('./home.js'));
 app.use('/event', require('./event.js'));
-app.use('/', express.static('public'));
+// app.use('/', express.static('public'));
+
+app.get('/', function(req, res){
+  res.render('login', {layout: 'loginpage'});
+});
 
 app.use(function(req,res){
   res.status(404);
