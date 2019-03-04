@@ -13,8 +13,6 @@ module.exports = function(){
             }
             context.myEvent = results;
             context.user_id= id;
-            //console.log(context);
-            // console.log(results);
             complete(); 
         });
     }
@@ -28,8 +26,6 @@ module.exports = function(){
                 res.end();
             }
             context.username = results[0];
-            //console.log(context);
-
             complete(); 
         });
     }
@@ -37,7 +33,6 @@ module.exports = function(){
     //find the event which name starts with a given string in the req
     function searchEvent(req, res, mysql, context, id, complete) {
         var sql = "SELECT * FROM Event e INNER JOIN User_Event ue ON ue.Event_ID = e.Event_ID WHERE ue.User_id = ? AND e.Name LIKE " + mysql.pool.escape('%' + req.query.eventname + '%');
-        /*var query = "SELECT * FROM Event WHERE SOUNDEX(name) = " + SOUNDEX(mysql.pool.escape(req.params.s));*/
         var inserts = [id]
         
         mysql.pool.query(sql, inserts, function(error, results, fields){
@@ -74,11 +69,9 @@ module.exports = function(){
         var callbackCount = 0;
         var context = {};
         var mysql = req.app.get('mysql');
-      context.jsscripts=["searchEvent.js", "filterByCategory.js"];
-        // context.user_id = req.query.user_id;
+        context.jsscripts=["searchEvent.js", "filterByCategory.js"];
         getMyEvent(res, mysql, context, req.params.user_id, complete);
         getName(res, mysql, context, req.params.user_id, complete);
-        // getMyStatement(res, mysql, context, complete);
         function complete(){
             callbackCount++;
             if(callbackCount >= 2){
@@ -95,9 +88,7 @@ module.exports = function(){
         var context = {};
         context.jsscripts = ["searchEvent.js", "filterByCategory.js"];
         var mysql = req.app.get('mysql');
-        //console.log(req.query.eventNameSearch);
         searchEvent(req, res, mysql, context, req.params.user_id, complete);
-        //getMyEvent(res, mysql, context, req.params.user_id, complete);
         getName(res, mysql, context, req.params.user_id, complete);
         function complete(){
             callbackCount++;
@@ -117,15 +108,11 @@ module.exports = function(){
         var mysql = req.app.get('mysql');
         
         filterByCategory(req, res, mysql, context, req.params.user_id, req.query.categoryname, complete);
-        console.log("hudeu");
-        console.log(context);
-        //getMyEvent(res, mysql, context, req.params.user_id, complete);
-        
+      
         getName(res, mysql, context, req.params.user_id, complete);
         function complete(){
             callbackCount++;
             if(callbackCount >= 2){
-                console.log("what"+context);
                 res.render('home', context);
             }
         }
@@ -162,12 +149,5 @@ module.exports = function(){
             }
         });
     });
-
-
-    // router.post('/user-event', (req, res)){
-    //  var mysql = req.app.get('mysql');
-    //  var creatUserEventsql = "INSERT INTO User_Event VALUES (:User_ID, :Event_ID)";
-    // }
-
     return router;
 }();
