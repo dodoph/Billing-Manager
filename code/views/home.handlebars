@@ -1,47 +1,47 @@
 <div class="title">
-    {{#each username}}
-        Hi {{First_Name}} {{Last_Name}}
-    {{/each}}
+	Hi {{username.First_Name}} {{username.Last_Name}}
 </div>
 
-<h2 class="event-heading"> Create Your Event</h2>
+<h3 class="event-heading"> Create Your Event</h2>
 <div class="createEvent" align="center">
 	<form id="creat-event" action="/home/{{user_id}}" method="post">
-		<label><b>Event Name</b></label>
-		<input type="text" name="eName">
-		<label style="margin-left:15px;"><b>Category</b></label>
+		<input type="text" name="eName" placeholder ="Event Name" required />
+		<label>Category</label>
 		<select name="category">
-			<option value="food">Food</option>
-			<option value="travel">Travel</option>
-			<option value="housing">Housing</option>
-			<option value="entertainment">Entertainment</option>
-			<option value="equipment">equipment</option>
-        	<option value="other">Other</option>
+			<option value="Food">Food</option>
+			<option value="Travel">Travel</option>
+			<option value="Housing">Housing</option>
+			<option value="Entertainment">Entertainment</option>
+			<option value="Equipment">Equipment</option>
+        	<option value="Other">Other</option>
 		</select>
-		<label style="margin-left:15px;"><b>Location</b></label>
-		<input type="text" name="location"><br><br>
+		<input type="text" name="location" placeholder = "Location" required />
 		<button class="eventpage-button" type="submit" value="Create"> Create </button>
 	</form>
 </div>
 
+<div class="event-search-filter" align="center" style="margin-bottom: 15px">
 
-<h2 class="event-heading"> Your Events</h2>
+	<input type="text" placeholder="Enter event name" id="eventNameSearch" value = '' required>
 
-<div class="event-search" align="center" style="margin-bottom: 15px">
-	<input type="text" placeholder="Enter event name" required>
-	<button class="eventpage-button" value = "search" onclick="searchEvent()">Search</button>
+	<input type="button" class="eventpage-button" value = "search" onclick="searchEvent({{user_id}})"></input>
 
-    <select style="margin-left: 15px;">
-        <option value="food">Food</option>
-		<option value="travel">Travel</option>
-		<option value="housing">Housing</option>
-		<option value="entertainment">Entertainment</option>
-		<option value="equipment">Equipment</option>
-        <option value="other">Other</option>
+    <select id='event_filter' style="margin-left: 15px;">
+        <option value="Food">Food</option>
+		<option value="Travel">Travel</option>
+		<option value="Housing">Housing</option>
+		<option value="Entertainment">Entertainment</option>
+		<option value="Equipment">Equipment</option>
+        <option value="Other">Other</option>
     </select>
-   
-	<button class="eventpage-button" value = "filter" onclick="filterByCategory()">Filter by Category</button><br>
+
+	<input type="button" class="eventpage-button" value = "Filter by Category" onclick="filterByCategory({{user_id}})"></input><br>
+	
 </div>
+
+
+<h3 class="event-heading"> Your Events</h2>
+
 
 <div class="yourEvents" align="center">
 	<table>
@@ -63,11 +63,11 @@
                 <td>{{Name}}</td>
                 <td>{{Category}}</td>
                 <td>{{Location}}</td>
-                <td>{{Participates}}</td>
+                <td>{{Participants}}</td>
                 <td>{{Total_Expense}}</td>
                 <td>{{Event_Share}}</td>
                 <td>{{Status_Open}}</td>
-                <td><a href="/event/1?user_id={{user_id}}">Enter</td>
+                <td><a href="/event/{{Event_ID}}?user_id={{../user_id}}">Enter</td>
             </tr>
         {{else}}
         <b>You currently have no event!</b>
@@ -75,7 +75,7 @@
         </tbody>
 	</table>
 </div>
-<h2 class="event-heading">Your Event Statements</h2>
+<h3 class="event-heading">Your Event Statements</h2>
 <div class="yourStatements" align="center">
 	<table>
 		<thead>
@@ -86,11 +86,11 @@
 			</tr>
 		</thead>
 		<tbody>
-        {{#each myStatement}}
+        {{#each myEvent}}
             <tr>
-                <td>{{Event_ID}}</td>
-                <td>{{Event_Paid}}</td>
-                <td>{{Event_Balance}}</td>
+                <td>{{Name}}</td>
+                <td>0</td>
+                <td>0</td>
             </tr>
         {{/each}}
 		</tbody>

@@ -1,5 +1,7 @@
-<div class="title">
-	{{eventName}}
+<div class="event-header" align="center"><span style="font-weight:bold; font-size:30px; color: #b3b3b3">Welcome to your {{events.Name}} Event</span>
+	<div id="back-to-home">
+	<a href= '/home/{{user_id}}' style="font-weight:bold; color: #4da6ff">Back To Home</a>
+	</div>
 </div>
 <div class="event" align="center">
 	<table>
@@ -20,43 +22,36 @@
 				<td>{{events.Name}}</td>
 				<td>{{events.Category}}</td>
 				<td>{{events.Location}}</td>
-				<td>{{events.Participates}}</td>
+				<td>{{events.Participants}}</td>
 				<td>{{events.Total_Expense}}</td>
 				<td>{{events.Event_Share}}</td>
 				<td>{{events.Status_Open}}</td>
 				<th><a class = 'button' href="#popup1">Edit</button></th>
-			</tr>
-			
-			<div id="popup1" class="overlay">
-				<div class="popup">
-					<h2>Edit your event</h2>
-					<a class="close" href="#">×</a>
-					<div class="content">
-						<form>
-							<label><b>Name</b></label>
-								<input type="text" name="Name"><br>
-								<label><b>Category</b></label>
-							<select name="Category">
-								<option value="food">Food</option>
-								<option value="travel">Travel</option>
-								<option value="housing">Housing</option>
-								<option value="entertainment">Entertainment</option>
-								<option value="equipment">equipment</option>
-				            	<option value="other">Other</option>
-							</select>
-								<label><b>Location</b></label>
-								<input type="text" name="Location" ><br>
-								<button onclick="editEvent{{id}}">Edit</button>
-						</form>
-					</div>
-				</div>
-			</div>	
+			</tr>	
 		</tbody>
 	</table>
 </div>
 
+<div id="popup1" class="overlay">
+	<div class="popup">
+		<h2>Edit your event</h2>
+		<a class="close" href="#">×</a>
+		<div class="content">
+			<form>
+				<label><b>Name</b></label>
+					<input type="text" name="name"><br>
+					<label><b>Category</b></label>
+					<input type="text" name="category" ><br>
+					<label><b>Location</b></label>
+					<input type="text" name="location" ><br>
+					<button onclick="editEvent{{id}}">Edit</button>
+			</form>
+		</div>
+	</div>
+</div>
+
 <div class="event-outerDiv">
-	<div class="addItem">
+	<div class="addItem" align="center">
 		<form id = "itemAdd" action="/event/additem/{{event_id}}?user_id={{user_id}}" method = "post">
 			<h2>Add Your Item</h2>
 			<label><b>Description</b></label>
@@ -68,7 +63,7 @@
  			<button type="submit">Add</button>
 		</form>
 	</div>
-	<div class="inviteFriend">
+	<div class="inviteFriend" align="center">
 		<form id = "friendInvite" action ="/event/invitefriend/{{event_id}}?user_id={{user_id}}" method = "post">
 			<h2>Invite Your friends</h2>
 			<label><b>Email</b></label>
@@ -103,12 +98,30 @@
 				<th>{{Last_Name}}</th>
 				<th>{{Quantity}}</th>
 				<th>{{Invoice_Amount}}</th>
-				<th><a href="/itemedit/{{Item_ID}}">Edit</button></th>
+				<th><a class = 'button' href="#popup2">Edit</button></th>
 				<th><button onclick="deletItem{{Item_ID}}">Delete</button></th>
 			</tr>
 			{{/each}}
 		</tbody>
 	</table>
+</div>
+
+<div id="popup2" class="overlay">
+	<div class="popup">
+		<h2>Edit your Item</h2>
+		<a class="close" href="#">×</a>
+		<div class="content">
+			<form>
+				<label><b>Description</b></label>
+				<input type="text" name="Description"><br>
+				<label><b>Quantity</b></label>
+				<input type="number" name="Quanity" ><br>
+				<label><b>Invoice Amount</b></label>
+				<input type="number" step="0.01" name="Invoice_Amount" ><br>
+				<button onclick="editItem{{id}}">Edit</button>
+			</form>
+		</div>
+	</div>
 </div>
 
 
