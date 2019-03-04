@@ -110,9 +110,6 @@ module.exports = function(){
                 if(results.affectedRows == 0){
                     
                 }
-
-
-                                // console.log('/event/' + req.params.event_id + '?user_id='+ req.query.user_id);
                 res.redirect('/event/' + req.params.event_id + '?user_id='+ req.query.user_id);
             }
         });
