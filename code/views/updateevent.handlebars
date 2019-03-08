@@ -1,0 +1,27 @@
+
+<div id="back-to-home">
+	<a href='/event/{{event_id}}?user_id={{user_id}}' style="font-weight:bold; color: #4da6ff">Back To Event</a>
+</div>
+
+
+<div class="updateEvent" align="center">
+	<h2>Edit your event</h2>
+	<form id="update-event" action="/event/{{event_id}}/update?user_id={{user_id}}" method = "post">
+		<label><b>Name</b></label>
+			<input type="text" name="Name" value={{events.Name}}><br>
+			<label>Category</label>
+			<select name="Category"> 
+				<option value="Food">Food</option>
+				<option value="Travel">Travel</option>
+				<option value="Housing">Housing</option>
+				<option value="Entertainment">Entertainment</option>
+				<option value="Equipment">Equipment</option>
+	        	<option value="Other">Other</option>
+			</select><br>
+		
+			<label><b>Location</b></label>
+			<input type="text" name="Location" value={{events.Location}}><br>	
+	</form>
+	<button onclick="updateEvent({{event_id}}, {{user_id}})">Edit</button>
+</div>
+

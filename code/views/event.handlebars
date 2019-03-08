@@ -13,7 +13,6 @@
 				<th>Participate</th>
 				<th>Total Expense</th>
 				<th>Event Share</th>
-				<th>Status</th>
 				<th>&nbsp;</th>
 			</tr>
 		</thead>
@@ -25,30 +24,12 @@
 				<td>{{events.Participants}}</td>
 				<td>{{events.Total_Expense}}</td>
 				<td>{{events.Event_Share}}</td>
-				<td>{{events.Status_Open}}</td>
-				<th><a class = 'button' href="#popup1">Edit</button></th>
+				<th><a class = 'button' href="/event/{{event_id}}/update?user_id={{user_id}}">Edit</button></th>
 			</tr>	
 		</tbody>
 	</table>
 </div>
 
-<div id="popup1" class="overlay">
-	<div class="popup">
-		<h2>Edit your event</h2>
-		<a class="close" href="#">×</a>
-		<div class="content">
-			<form>
-				<label><b>Name</b></label>
-					<input type="text" name="name"><br>
-					<label><b>Category</b></label>
-					<input type="text" name="category" ><br>
-					<label><b>Location</b></label>
-					<input type="text" name="location" ><br>
-					<button onclick="editEvent{{id}}">Edit</button>
-			</form>
-		</div>
-	</div>
-</div>
 
 <div class="event-outerDiv">
 	<div class="addItem" align="center">
@@ -93,35 +74,21 @@
 		<tbody>
 			{{#each items}}
 			<tr>
-				<th>{{Description}}</th>
-				<th>{{First_Name}}</th>
-				<th>{{Last_Name}}</th>
-				<th>{{Quantity}}</th>
-				<th>{{Invoice_Amount}}</th>
-				<th><a class = 'button' href="#popup2">Edit</button></th>
-				<th><button onclick="deletItem{{Item_ID}}">Delete</button></th>
+				<td>{{Description}}</td>
+				<td>{{First_Name}}</td>
+				<td>{{Last_Name}}</td>
+				<td>{{Quantity}}</td>
+				<td>{{Invoice_Amount}}</td>
+				{{#ifeq ../user_id Payer_ID}}
+					<td><a href="/event/{{../../event_id}}/item/{{Item_ID}}?user_id={{../../user_id}}">Edit</td>
+				{{else}}
+					<td>Edit</td>
+				{{/ifeq}}
+				<td>Delete</td>
 			</tr>
 			{{/each}}
 		</tbody>
 	</table>
-</div>
-
-<div id="popup2" class="overlay">
-	<div class="popup">
-		<h2>Edit your Item</h2>
-		<a class="close" href="#">×</a>
-		<div class="content">
-			<form>
-				<label><b>Description</b></label>
-				<input type="text" name="Description"><br>
-				<label><b>Quantity</b></label>
-				<input type="number" name="Quanity" ><br>
-				<label><b>Invoice Amount</b></label>
-				<input type="number" step="0.01" name="Invoice_Amount" ><br>
-				<button onclick="editItem{{id}}">Edit</button>
-			</form>
-		</div>
-	</div>
 </div>
 
 
@@ -132,17 +99,25 @@
 			<tr>
 				<th>First Name</th>
 				<th>Last Name</th>
-				<th>&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>
-			{{#each participats}}
+			{{#each participates}}
 			<tr>
-				<th>{{First_Name}}</th>
-				<th>{{Last_Name}}</th>
-				<th><button onclick="deletParticipate{{id}}">Delete</button></th>
+				<td>{{First_Name}}</th>
+				<td>{{Last_Name}}</th>	
 			</tr>
 			{{/each}}
 		</tbody>
 	</table>
 </div> 
+
+
+
+
+
+
+
+
+
+

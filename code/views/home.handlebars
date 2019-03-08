@@ -54,7 +54,7 @@
 				<th>Total Expense</th>
 				<th>Event Share</th>
 				<th>Status</th>
-				<th>&nbsp;</th>
+				<th>Enter Event</th>
 			</tr>
 		</thead>
         <tbody>
@@ -66,7 +66,11 @@
                 <td>{{Participants}}</td>
                 <td>{{Total_Expense}}</td>
                 <td>{{Event_Share}}</td>
-                <td>{{Status_Open}}</td>
+                {{#ifeq status_Open "1"}}
+                	<td>Close</td>
+                {{else}}
+                	<td>Open</td>
+                {{/ifeq}}
                 <td><a href="/event/{{Event_ID}}?user_id={{../user_id}}">Enter</td>
             </tr>
         {{else}}
@@ -86,11 +90,11 @@
 			</tr>
 		</thead>
 		<tbody>
-        {{#each myEvent}}
+        {{#each statements}}
             <tr>
                 <td>{{Name}}</td>
-                <td>0</td>
-                <td>0</td>
+                <td>{{Event_Paid}}</td>
+                <td>{{Event_Balance}}</td>
             </tr>
         {{/each}}
 		</tbody>

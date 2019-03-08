@@ -10,11 +10,26 @@ var path = require('path');
 
 /*Express server*/
 var app = express();
-var handlebars = require('express-handlebars').create({defaultLayout:'main'});
+var handlebars = require('express-handlebars').create({
+	defaultLayout:'main',
+	helpers:{
+		ifeq: function(a, b, opts){
+			if(a==b){
+				return opts.fn(this)
+			}else{
+				return opts.inverse(this)
+			}
+		}
+	}
+
+});
+
 app.engine('handlebars', handlebars.engine);
+
 app.use(bodyParser.urlencoded({extended:true}));
 app.use('/static', express.static('public'));
 app.set('view engine', 'handlebars');
+
 app.set('port', process.argv[2]);
 app.set('mysql', mysql);
 

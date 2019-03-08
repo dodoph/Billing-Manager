@@ -1,0 +1,18 @@
+
+<div id="back-to-home">
+	<a href= '/event/{{event_id}}?user_id={{user_id}}' style="font-weight:bold; color: #4da6ff">Back To Event</a>
+</div>
+
+<div class="updateItem" align="center">
+	<form id="update-item" action = "/event/{{event_id}}/item/{{item_id}}?user_id={{user_id}}" method = "post">
+		<h2>Edit Your Item</h2>
+		<label><b>Description</b></label>
+			<input type="text" name="Description" value="{{item.Description}}"><br>
+			<label><b>Quantity</b></label>
+			<input type="number" name="Quantity" value="{{item.Quanity}}"><br>
+			<label><b>Invoice Amount</b></label>
+			<input type="number" step="0.01" name="Invoice_Amount" value="{{item.Invoice_Amount}}""><br>
+			
+	</form>
+	<button onclick="updateItem({{event_id}}, {{user_id}}, {{item_id}})">Edit</button>
+</div>

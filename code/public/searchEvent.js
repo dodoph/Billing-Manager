@@ -3,4 +3,4 @@ function searchEvent(id) {
     //construct the URL and redirect to it
     window.location = '/home/search/' + id  + '?eventname=' + encodeURI(event_search_string)
 
-}
+};
