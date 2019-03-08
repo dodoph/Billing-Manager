@@ -59,7 +59,7 @@ module.exports = function(){
     	var callback =0;
     	var context = {};
     	context.user_id = parseInt(req.query.user_id);
-        context.jsscripts=["updateevent.js","updateitem.js"];
+        context.jsscripts=["updateevent.js","updateitem.js", "deleteItem.js"];
     	var mysql = req.app.get('mysql');
     	getEvent(res, mysql, context, req.params.event_id, complete);
     	getItems(res, mysql, context, req.params.event_id, complete);
@@ -251,6 +251,22 @@ module.exports = function(){
         })
     })
 
+
+    router.delete('/:event_id/item/:item_id', function(req, res){
+        var mysql = req.app.get('mysql');
+        console.log("req.query.item_id: " + req.params.item_id)
+        var sql = "DELETE FROM Item WHERE Item_ID = ?";
+        var inserts = [req.params.item_id];
+        sql = mysql.pool.query(sql, inserts, function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.status(400);
+                res.end();
+            }else{
+                res.status(202).end();
+            }
+        })
+    })
 
 
 
