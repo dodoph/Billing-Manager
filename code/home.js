@@ -71,14 +71,13 @@ module.exports = function(){
     	var callbackCount = 0;
     	var context = {};
     	var mysql = req.app.get('mysql');
-        context.jsscripts=["searchEvent.js", "filterByCategory.js", "deleteParticipate.js"];
+        context.jsscripts=["searchEvent.js", "filterByCategory.js"];
     	// context.user_id = req.query.user_id;
     	getMyEvent(res, mysql, context, req.params.user_id, complete);
     	getName(res, mysql, context, req.params.user_id, complete);
-    	//getMyStatement(res, mysql, context, req.params.user_id, complete);
         function complete(){
             callbackCount++;
-            if(callbackCount >= 3){
+            if(callbackCount >= 2){
             	//console.log(context);
                 res.render('home', context);
             }
@@ -90,7 +89,7 @@ module.exports = function(){
     router.get('/search/:user_id', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["searchEvent.js", "filterByCategory.js", "deleteParticipate.js"];
+        context.jsscripts = ["searchEvent.js", "filterByCategory.js"];
         var mysql = req.app.get('mysql');
         searchEvent(req, res, mysql, context, req.params.user_id, complete);
         getName(res, mysql, context, req.params.user_id, complete);
@@ -106,7 +105,7 @@ module.exports = function(){
     router.get('/filter/:user_id', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["searchEvent.js", "filterByCategory.js", "deleteParticipate.js"];
+        context.jsscripts = ["searchEvent.js", "filterByCategory.js"];
         var mysql = req.app.get('mysql');
         
         filterByCategory(req, res, mysql, context, req.params.user_id, req.query.categoryname, complete);
