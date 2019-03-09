@@ -144,7 +144,7 @@ module.exports = function(){
     router.post('/invitefriend/:event_id', function(req, res){
         //console.log(req.body)
         var mysql = req.app.get('mysql');
-        var sql = "INSERT INTO User_Event SELECT User_ID, ? FROM User u WHERE u.Email= ?;"
+        var sql = "INSERT INTO User_Event SELECT User_ID, ? FROM User u WHERE u.Email= ?";
         var inserts = [req.params.event_id, req.body.Email];
         //console.log(req.query.user_id);
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
@@ -250,9 +250,5 @@ module.exports = function(){
             }
         })
     })
-
-
-
-
   	return router;
 }();
