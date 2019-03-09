@@ -1,7 +1,7 @@
-function deleteItem(event_id, user_id, item_id){
+function deleteItem(event_id, item_id){
     console.log('deleting item')
     $.ajax({
-        url: '/event/' + event_id + '/item/'+ item_id + '?user_id=' + user_id,
+        url: '/event/' + event_id + '/item/'+ item_id,
         type: 'DELETE',
         success: function(result){
             if(result.responseText != undefined){
