@@ -81,7 +81,7 @@
 				<td>{{Invoice_Amount}}</td>
 				{{#ifeq ../user_id Payer_ID}}
 					<td><a href="/event/{{../../event_id}}/item/{{Item_ID}}?user_id={{../../user_id}}">Edit</td>
-                    <td><button value="delete" onclick="deleteItem(2,1,{{Item_ID}})">Delete</button>
+                    <td><button value="delete" onclick="deleteItem({{../../event_id}},{{Item_ID}})">Delete</button>
 				{{else}}
 					<td>Edit</td>
                     <td>Delete</td>
