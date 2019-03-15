@@ -10,9 +10,15 @@ module.exports = function(){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
+            // }else if (results === undefined || results.length == 0) {
+            // 	context.username = undefined;
+
+            }else{
+            	context.username = results[0];
+            	console.log(results);
+            
+            	complete();
             }
-            context.username = results[0];
-            complete();
 		});
   }
 
@@ -40,8 +46,6 @@ module.exports = function(){
 	});
 
 	 /*Login */
-
-
 	router.get('/email/', function(req, res){
 		callback = 0;
 		var context = {};
@@ -52,12 +56,16 @@ module.exports = function(){
 		function complete(){
 			callback++;
 			if(callback>=1){
-				res.redirect('/home/' + context.username.User_ID);
-			}
-			
+				if(context.username === undefined || context.username.length == 0 ){
+					res.redirect('/login');
+				}else{
+					res.redirect('/home/' + context.username.User_ID);
+				}	
+			}	
 		}
-		
 	});
+
+/**https://stackoverflow.com/questions/53797147/sending-query-params-forth-to-another-page-with-post-in-node-js-and-express*/
 
 	return router;
 }();

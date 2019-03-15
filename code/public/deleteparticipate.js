@@ -1,14 +1,14 @@
-function deletItem(item_id, event_id, user_id){
+function deleteParticipate(event_id, user_id){
 	console.log("HELLO");
 	$.ajax({
-        url: '/event/' + event_id + '/deleteitem/' + item_id + '?user_id=' + user_id,
+        url: '/home/user_event/' + event_id + '?user_id=' + user_id,
         type: 'DELETE',
         success: function(result){
         	console.log("deedddd");
           if(result.responseText != undefined){
             alert(result.responseText)
           }else {
-            window.location.href = '/event/' + event_id + '?user_id=' + user_id;
+            window.location.href = '/home/' + user_id;
           } 
       	},
       	error: function(error){

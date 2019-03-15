@@ -20,6 +20,13 @@ var handlebars = require('express-handlebars').create({
 				return opts.inverse(this)
 			}
 		}
+		// ifnoteq: function (a, b, options) {
+  //  		if (a != b) { 
+  //  			return options.fn(this); 
+  //  		}else{
+  //  			return options.inverse(this);
+  //  		}
+  //   }
 	}
 
 });
@@ -29,6 +36,16 @@ app.engine('handlebars', handlebars.engine);
 app.use(bodyParser.urlencoded({extended:true}));
 app.use('/static', express.static('public'));
 app.set('view engine', 'handlebars');
+// var hbs = require('handlebars');
+// hbs.registerHelper('ifeq', function (a, b, options) {
+//     if (a == b) { return options.fn(this); }
+//     return options.inverse(this);
+// });
+
+// hbs.registerHelper('ifnoteq', function (a, b, options) {
+//     if (a != b) { return options.fn(this); }
+//     return options.inverse(this);
+// });
 
 app.set('port', process.argv[2]);
 app.set('mysql', mysql);

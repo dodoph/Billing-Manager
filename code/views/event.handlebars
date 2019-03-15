@@ -13,7 +13,7 @@
 				<th>Participate</th>
 				<th>Total Expense</th>
 				<th>Event Share</th>
-				<th>&nbsp;</th>
+				<th>Edit Event</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -24,7 +24,7 @@
 				<td>{{events.Participants}}</td>
 				<td>{{events.Total_Expense}}</td>
 				<td>{{events.Event_Share}}</td>
-				<th><a class = 'button' href="/event/{{event_id}}/update?user_id={{user_id}}">Edit</button></th>
+				<td><a class="enter-edit" href="/event/{{event_id}}/update?user_id={{user_id}}"><button>Edit</button></button></th>
 			</tr>	
 		</tbody>
 	</table>
@@ -50,6 +50,7 @@
 			<label><b>Email</b></label>
   			<input type="email" name="Email"><br>
   			<button type="submit">Send Invite</button>
+  			<br><span>Your friend must be a member of our website</span>
 		</form>
 		
 	</div>
@@ -58,33 +59,35 @@
 
 
 <h2 align="center">Item:</h2>
-<div class="items" align="center">
+<div class="my-table" align="center">
 	<table>
 		<thead>
 			<tr>
 				<th>Description</th>
-				<th>First Name</th>
-				<th>Last Name</th>
+				<th>Payer</th>
 				<th>Quantity</th>
 				<th>Invocie Amount</th>
-				<th>&nbsp;</th>
-				<th>&nbsp;</th>
+				<th>Edit Item</th>
+				<th>Delete Item</th>
 			</tr>
 		</thead>
 		<tbody>
 			{{#each items}}
 			<tr>
 				<td>{{Description}}</td>
-				<td>{{First_Name}}</td>
-				<td>{{Last_Name}}</td>
+				<td>{{First_Name}} {{Last_Name}}</td>
 				<td>{{Quantity}}</td>
 				<td>{{Invoice_Amount}}</td>
 				{{#ifeq ../user_id Payer_ID}}
-					<td><a href="/event/{{../../event_id}}/item/{{Item_ID}}?user_id={{../../user_id}}">Edit</td>
-                    <td><button value="delete" onclick="deleteItem({{../../event_id}},{{Item_ID}})">Delete</button>
+					<td><a class="enter-edit" href="/event/{{../../event_id}}/item/{{Item_ID}}?user_id={{../../user_id}}"><button>Edit</button></td>
 				{{else}}
-					<td>Edit</td>
-                    <td>Delete</td>
+				
+					<td>N/A</td>
+				{{/ifeq}}
+				{{#ifeq ../user_id Payer_ID}}
+					<td><button onclick="deletItem({{Item_ID}}, {{../../event_id}}, {{../../user_id}})">Delete</button></td>
+				{{else}}
+					<td>N/A</td>
 				{{/ifeq}}
 			</tr>
 			{{/each}}
@@ -94,19 +97,21 @@
 
 
 <h2 align="center">Participates:</h2>
-<div class="participates" align="center">
+<div class="my-table" align="center">
 	<table>
 		<thead>
 			<tr>
-				<th>First Name</th>
-				<th>Last Name</th>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Phone</th>
 			</tr>
 		</thead>
 		<tbody>
 			{{#each participates}}
 			<tr>
-				<td>{{First_Name}}</th>
-				<td>{{Last_Name}}</th>	
+				<td>{{First_Name}} {{Last_Name}}</td>
+				<td>{{Email}}</td>
+				<td>{{Phone}}</td>	
 			</tr>
 			{{/each}}
 		</tbody>

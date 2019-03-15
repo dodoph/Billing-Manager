@@ -6,13 +6,12 @@
 <div class="updateItem" align="center">
 	<form id="update-item" action = "/event/{{event_id}}/item/{{item_id}}?user_id={{user_id}}" method = "post">
 		<h2>Edit Your Item</h2>
-		<label><b>Description</b></label>
-			<input type="text" name="Description" value="{{item.Description}}"><br>
+			<label><b>Description</b></label>
+			<input type="text" name="Description" value="{{myitem.Description}}"><br>
 			<label><b>Quantity</b></label>
-			<input type="number" name="Quantity" value="{{item.Quanity}}"><br>
+			<input type="number" name="Quantity" value="{{myitem.Quantity}}"><br>
 			<label><b>Invoice Amount</b></label>
-			<input type="number" step="0.01" name="Invoice_Amount" value="{{item.Invoice_Amount}}""><br>
-			
+			<input type="number" step="0.01" name="Invoice_Amount" value="{{myitem.Invoice_Amount}}""><br>
+			<button class="eventpage-button" type="submit" value="Create"> Edit </button>
 	</form>
-	<button onclick="updateItem({{event_id}}, {{user_id}}, {{item_id}})">Edit</button>
 </div>

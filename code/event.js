@@ -36,7 +36,7 @@ module.exports = function(){
 
 
     function getParticipates(res, mysql, context, id, complete){
-    	var sql ="SELECT u.User_ID, u.First_Name, u.Last_Name FROM User u INNER JOIN User_Event ue ON ue.User_ID = u.User_ID WHERE ue.Event_ID = ?";
+    	var sql ="SELECT u.User_ID, u.First_Name, u.Last_Name, u.Email, u.Phone FROM User u INNER JOIN User_Event ue ON ue.User_ID = u.User_ID WHERE ue.Event_ID = ?";
     	var inserts = [id];
     	mysql.pool.query(sql, inserts, function(error, results, fields){
     		if(error){
@@ -44,9 +44,36 @@ module.exports = function(){
                 res.end();
             }
             context.participates = results;
-            console.log(context);
+            //console.log(context);
             complete();
     	});
+    }
+
+    function getEditEvent(res, mysql, context, id, complete){
+        var sql="SELECT Name, Category, Location FROM Event e WHERE e.Event_ID = ?";
+        var inserts = [id];
+        mysql.pool.query(sql, inserts, function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.myevent = results[0];
+            complete();
+        })
+    }
+
+    function getEditItem(res, mysql, context, id, complete){
+        var sql = "SELECT Description, Quantity, Invoice_Amount FROM Item i WHERE i.Item_ID =?";
+        var inserts = [id];
+        mysql.pool.query(sql, inserts, function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.myitem = results[0];
+            complete();
+        })
+
     }
 
     router.get('/', function(req, res){
@@ -59,7 +86,7 @@ module.exports = function(){
     	var callback =0;
     	var context = {};
     	context.user_id = parseInt(req.query.user_id);
-        context.jsscripts=["updateevent.js","updateitem.js", "deleteItem.js"];
+        context.jsscripts=["deleteitem.js"];
     	var mysql = req.app.get('mysql');
     	getEvent(res, mysql, context, req.params.event_id, complete);
     	getItems(res, mysql, context, req.params.event_id, complete);
@@ -67,37 +94,52 @@ module.exports = function(){
     	function complete(){
     		callback++;
     		if(callback >= 3){
-                console.log("print the context");
-                console.log(context);
+                //console.log("print the context");
+                //console.log(context);
     			res.render('event', context);
     		}
     	}
     });
 
     /* Display one item for the specific purpose of updating item table */
-
     router.get('/:event_id/item/:item_id', function(req, res){
+        callback = 0;
         var context ={};
+        var mysql = req.app.get('mysql');
         context.event_id = req.params.event_id;
         context.user_id= req.query.user_id;
         context.item_id = req.params.item_id;
-        context.jsscripts=["updateevent.js","updateitem.js"];
-        res.render('updateitem', context);
+        context.jsscripts=["deleteitem.js"];
+        getEditItem(res, mysql, context, req.params.item_id, complete);
+        function complete(){
+            callback++;
+            if(callback>=1){
+                res.render('updateitem', context);
+            }
+        }
     });
 
-    //update event
-
+    /*Display update event page*/
     router.get('/:event_id/update/', function(req, res){
+        callback = 0;
         var context ={};
+        var mysql = req.app.get('mysql');
         context.event_id = req.params.event_id;
         context.user_id= req.query.user_id;
-        context.jsscripts=["updateevent.js","updateitem.js"];
-        res.render('updateevent', context);
+        context.jsscripts=["deleteitem.js"];
+        getEditEvent(res, mysql, context, req.params.event_id, complete);
+        function complete(){
+            callback++;
+            if(callback>=1){
+                res.render('updateevent', context);
+            }
+        }
+        
     });
 
 
 
-
+    /*Add a new item into item table*/
     router.post('/additem/:event_id', function(req, res){
         //console.log(req)
     	
@@ -140,15 +182,17 @@ module.exports = function(){
         });
     });
 
-
+    /*Invite a friend which is to insert a new user-event relation into mapping table*/
     router.post('/invitefriend/:event_id', function(req, res){
         //console.log(req.body)
         var mysql = req.app.get('mysql');
-        var sql = "INSERT INTO User_Event SELECT User_ID, ? FROM User u WHERE u.Email= ?";
+        var sql = "INSERT INTO User_Event SELECT User_ID, ? FROM User u WHERE u.Email= ?;"
         var inserts = [req.params.event_id, req.body.Email];
         //console.log(req.query.user_id);
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
-            if(error){
+            if(results.affectedRows == 0){
+                res.redirect('/event/' + req.params.event_id + '?user_id='+ req.query.user_id);
+            }else if(error){
                 console.log(JSON.stringify(error))
                 res.write(JSON.stringify(error));
                 res.end();
@@ -182,11 +226,12 @@ module.exports = function(){
         });
     });
 
-
-    router.put('/:event_id/item/:item_id', function(req, res){
+    /*Update item information*/
+    router.post('/:event_id/item/:item_id', function(req, res){
         //console.log("DEDEDDD");
         var mysql = req.app.get('mysql');
         var context={};
+
 
         var sql = "UPDATE Item i SET Description =?, Quantity = ?, Invoice_Amount = ? WHERE i.Item_ID = ?";
 
@@ -217,12 +262,7 @@ module.exports = function(){
                                 res.end();
 
                             }else{
-                            //console.log("testes");
-
-                            res.status(303);
-                            console.log(req.query.user_id);
-                            console.log(req.params.event_id);
-                            
+                            res.redirect('/event/' + req.params.event_id + '?user_id='+ req.query.user_id);
                             }
                         });
                     }
@@ -232,7 +272,8 @@ module.exports = function(){
     });
 
 
-    router.put('/:event_id/update', function(req, res){
+    /*update Event table information*/
+    router.post('/:event_id/update', function(req, res){
         var mysql = req.app.get('mysql');
         var context = {};
         var sql = "UPDATE Event e SET Name =?, Category =?, Location = ? WHERE e.Event_ID = ?";
@@ -244,64 +285,56 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.end();
             }else{
-                console.log("testing user_id "+req.query.user_id);
-                res.status(303);
-              
+                //console.log("testing user_id "+req.query.user_id);
+                res.redirect('/event/' + req.params.event_id + '?user_id='+ req.query.user_id);
             }
         })
     })
-<<<<<<< HEAD
-=======
 
-
-    router.delete('/:event_id/item/:item_id', function(req, res){
+    /*delete item which is to set the foreign key(Event_ID) to NULL in one - many relationship*/
+    router.delete('/:event_id/deleteitem/:item_id', function(req, res){
+        // console.log("test!");
+        // console.log("user id is " +req.query.user_id);
+        // console.log("event id is " + req.params.event_id);
         var mysql = req.app.get('mysql');
-        var amount = 10;
-        sql2 = mysql.pool.query("SELECT Invoice_Amount FROM Item WHERE Item_ID = ?", req.params.item_id, function(error, results, fields) {
-            if (error) {
-                res.write(JSON.stringify(error));
-                res.status(400);
-                res.end();
-            } else {
-                context.amount = results[0][1];
-                console.log("AMOUNT IS: " + amount);
-            }
-        })
-
-        var sql = "DELETE FROM Item WHERE Item_ID = ?";
-        var inserts = [req.params.item_id];
-        sql = mysql.pool.query(sql, inserts, function(error, results, fields){
+        var context={};
+        var deleteItemSql = "UPDATE Item i SET i.Event_ID = NULL WHERE i.Item_ID =?";
+        var deleteItemInserts = [req.params.item_id];
+        deleteItemSql = mysql.pool.query(deleteItemSql, deleteItemInserts, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
-                res.status(400);
-                res.end();
-            }else {
-                var totalExpenseSql = "UPDATE Event e SET e.Total_Expense = e.Total_Expense - ? WHERE e.Event_ID = ?";
-                var totalExpenseInserts = [amount, req.params.event_id];
-                totalExpenseSql = mysql.pool.query(totalExpenseSql, totalExpenseInserts, function (error, results, fields) {
-                    if (error) {
+                console.log(error);
+                res.status(400); 
+                res.end(); 
+            }else{
+                console.log("this user's items are set to NULL success!");
+                var totalExpenseSql = "UPDATE Event e LEFT JOIN (SELECT Event_ID, IFNULL(SUM(Invoice_Amount), 0) AS Total FROM Item GROUP BY Event_ID) i ON i.Event_ID = e.Event_ID SET e.Total_Expense = IFNULL(i.Total, 0) WHERE e.Event_ID = ?";
+                var totalExpenseInserts = [req.params.event_id];
+                totalExpenseSql = mysql.pool.query(totalExpenseSql,totalExpenseInserts,function(error, results, fields){
+                    if(error){
                         console.log(JSON.stringify(error))
                         res.write(JSON.stringify(error));
                         res.end();
-                    } else {
+                    }else{
+                        console.log("update event total express success!");
                         var eventShareSql = "UPDATE Event e SET e.Event_Share = e.Total_Expense / e.Participants WHERE e.Event_ID = ?";
                         var eventShareInserts = [req.params.event_id];
-                        eventShareSql = mysql.pool.query(eventShareSql, eventShareInserts, function (error, results, fields) {
-                            if (error) {
+                        eventShareSql = mysql.pool.query(eventShareSql, eventShareInserts, function(error, results, fields){
+                            if(error){
                                 console.log(JSON.stringify(error))
                                 res.write(JSON.stringify(error));
                                 res.end();
+
+                            }else{
+                                console.log("update event share success!");
+                                res.status(202).end();
                             }
-                        });
-                        res.status(202).end();
+                        })
                     }
-                });
+                })
             }
-        })
-    })
+        });
+    });
 
-
-
->>>>>>> 4d67110dec67d5ef7a0d3cd383359b9efaf862da
   	return router;
 }();

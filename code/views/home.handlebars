@@ -2,7 +2,7 @@
 	Hi {{username.First_Name}} {{username.Last_Name}}
 </div>
 
-<h3 class="event-heading"> Create Your Event</h2>
+<h3 class="event-heading"> Create Your Event</h3>
 <div class="createEvent" align="center">
 	<form id="creat-event" action="/home/{{user_id}}" method="post">
 		<input type="text" name="eName" placeholder ="Event Name" required />
@@ -40,10 +40,10 @@
 </div>
 
 
-<h3 class="event-heading"> Your Events</h2>
+<h3 class="event-heading"> Your Events</h3>
 
 
-<div class="yourEvents" align="center">
+<div class="my-table" align="center">
 	<table>
 		<thead>
 			<tr>
@@ -55,6 +55,8 @@
 				<th>Event Share</th>
 				<th>Status</th>
 				<th>Enter Event</th>
+				<th>Leave Event</th>
+				<th>Close Event</th>
 			</tr>
 		</thead>
         <tbody>
@@ -65,13 +67,33 @@
                 <td>{{Location}}</td>
                 <td>{{Participants}}</td>
                 <td>{{Total_Expense}}</td>
+                
                 <td>{{Event_Share}}</td>
-                {{#ifeq status_Open "1"}}
-                	<td>Close</td>
+                {{#ifeq Status_Open "0"}}
+                	<td>Closed</td>
                 {{else}}
                 	<td>Open</td>
                 {{/ifeq}}
-                <td><a href="/event/{{Event_ID}}?user_id={{../user_id}}">Enter</td>
+                
+                {{#ifeq Status_Open "0"}}
+                	<td> N/A </td>
+                {{else}}
+                	<td>
+                		<a href="/event/{{Event_ID}}?user_id={{../../user_id}}"><button class="eventpage-button">Enter</button></a>
+                	</td>
+                {{/ifeq}}
+
+                {{#ifeq Status_Open "0"}}
+                	<td> N/A </td>
+                {{else}}
+	                <td><button class="delete-button" onclick="deleteParticipate({{Event_ID}}, {{../../user_id}})">Delete</button></td>
+                {{/ifeq}}
+
+                {{#ifeq Status_Open "0"}}
+                	<td> N/A </td>
+                {{else}}
+                	<td><button onclick="closeEvent({{Event_ID}}, {{../../user_id}})">Close</button></td>
+                {{/ifeq}}
             </tr>
         {{else}}
         <b>You currently have no event!</b>
@@ -79,24 +101,31 @@
         </tbody>
 	</table>
 </div>
-<h3 class="event-heading">Your Event Statements</h2>
-<div class="yourStatements" align="center">
-	<table>
-		<thead>
-			<tr>
-				<th>Event</th>
-				<th>Your Event Paid</th>
-				<th>Balance</th>
-			</tr>
-		</thead>
-		<tbody>
-        {{#each statements}}
-            <tr>
-                <td>{{Name}}</td>
-                <td>{{Event_Paid}}</td>
-                <td>{{Event_Balance}}</td>
-            </tr>
-        {{/each}}
-		</tbody>
-	</table>	
-</div>
+
+<h3 class="event-heading">Your Event Statements 
+<br><span class = "statement-note">(The statement will be displayed only if the event is closed)</span>
+</h3>
+	<div class="my-table" align="center">
+		<table>
+			<thead>
+				<tr>
+					<th>Event Name</th>
+					<th>Your Event Paid</th>
+					<th>Balance</th>
+				</tr>
+			</thead>
+			<tbody>
+	        {{#each statements}}
+	            <tr>
+	                <td>{{Name}}</td>
+	                <td>{{Event_Paid}}</td>
+	                <td>{{Event_Balance}}</td>
+	            </tr>
+	        {{/each}}
+			</tbody>
+		</table>	
+	</div>
+
+
+
+

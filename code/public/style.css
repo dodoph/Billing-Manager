@@ -130,6 +130,14 @@ input[type="number"] {
     border-color: #357ebd;
 }
 
+
+.delete-button {
+  color: #fff;
+    background-color: #ffbe4d;
+    border-color: #357ebd;
+
+}
+
 table {
 	border-style: solid;
 	border-width: thin;
@@ -137,8 +145,31 @@ table {
 
 }
 
+
+
 th {
+  border-collapse: collapse;
+  /*width: 100%;*/
+  padding: 8px;
 	background: #efefef;
+  border: 1px solid black;
+}
+
+tr {
+  border: 1px solid black;
+  border-collapse: collapse;
+  /*width: 100%;*/
+  padding: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  border-style: solid;
+  border-width: thin;
+  
+}
+
+td {
+  padding: 8px;
   border: 1px solid black;
 }
 
@@ -195,6 +226,15 @@ th {
 
 .event {
   margin-top: 20px;
+}
+
+.my-table {
+  margin-bottom: 20px;
+}
+
+.statement-note {
+  color: #b3b3b3;
+  font-size: 20px;
 }
 
 .event-heading {
