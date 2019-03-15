@@ -85,7 +85,7 @@
 					<td>N/A</td>
 				{{/ifeq}}
 				{{#ifeq ../user_id Payer_ID}}
-					<td><button onclick="deletItem({{Item_ID}}, {{../../event_id}}, {{../../user_id}})">Delete</button></td>
+					<td><button onclick="deleteItem({{Item_ID}}, {{../../event_id}}, {{../../user_id}})">Delete</button></td>
 				{{else}}
 					<td>N/A</td>
 				{{/ifeq}}
