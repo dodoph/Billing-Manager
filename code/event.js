@@ -256,7 +256,18 @@ module.exports = function(){
 
     router.delete('/:event_id/item/:item_id', function(req, res){
         var mysql = req.app.get('mysql');
-        console.log("req.query.item_id: " + req.params.item_id)
+        var amount = 10;
+        sql2 = mysql.pool.query("SELECT Invoice_Amount FROM Item WHERE Item_ID = ?", req.params.item_id, function(error, results, fields) {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.status(400);
+                res.end();
+            } else {
+                context.amount = results[0][1];
+                console.log("AMOUNT IS: " + amount);
+            }
+        })
+
         var sql = "DELETE FROM Item WHERE Item_ID = ?";
         var inserts = [req.params.item_id];
         sql = mysql.pool.query(sql, inserts, function(error, results, fields){
@@ -264,8 +275,27 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.status(400);
                 res.end();
-            }else{
-                res.status(202).end();
+            }else {
+                var totalExpenseSql = "UPDATE Event e SET e.Total_Expense = e.Total_Expense - ? WHERE e.Event_ID = ?";
+                var totalExpenseInserts = [amount, req.params.event_id];
+                totalExpenseSql = mysql.pool.query(totalExpenseSql, totalExpenseInserts, function (error, results, fields) {
+                    if (error) {
+                        console.log(JSON.stringify(error))
+                        res.write(JSON.stringify(error));
+                        res.end();
+                    } else {
+                        var eventShareSql = "UPDATE Event e SET e.Event_Share = e.Total_Expense / e.Participants WHERE e.Event_ID = ?";
+                        var eventShareInserts = [req.params.event_id];
+                        eventShareSql = mysql.pool.query(eventShareSql, eventShareInserts, function (error, results, fields) {
+                            if (error) {
+                                console.log(JSON.stringify(error))
+                                res.write(JSON.stringify(error));
+                                res.end();
+                            }
+                        });
+                        res.status(202).end();
+                    }
+                });
             }
         })
     })
