@@ -86,7 +86,7 @@ module.exports = function(){
     	var callback =0;
     	var context = {};
     	context.user_id = parseInt(req.query.user_id);
-        context.jsscripts=["deleteitem.js"];
+        context.jsscripts=["deleteItem.js"];
     	var mysql = req.app.get('mysql');
     	getEvent(res, mysql, context, req.params.event_id, complete);
     	getItems(res, mysql, context, req.params.event_id, complete);
@@ -109,7 +109,7 @@ module.exports = function(){
         context.event_id = req.params.event_id;
         context.user_id= req.query.user_id;
         context.item_id = req.params.item_id;
-        context.jsscripts=["deleteitem.js"];
+        context.jsscripts=["deleteItem.js"];
         getEditItem(res, mysql, context, req.params.item_id, complete);
         function complete(){
             callback++;
@@ -126,7 +126,7 @@ module.exports = function(){
         var mysql = req.app.get('mysql');
         context.event_id = req.params.event_id;
         context.user_id= req.query.user_id;
-        context.jsscripts=["deleteitem.js"];
+        context.jsscripts=["deleteItem.js"];
         getEditEvent(res, mysql, context, req.params.event_id, complete);
         function complete(){
             callback++;
@@ -292,7 +292,7 @@ module.exports = function(){
     })
 
     /*delete item which is to set the foreign key(Event_ID) to NULL in one - many relationship*/
-    router.delete('/:event_id/deleteitem/:item_id', function(req, res){
+    router.delete('/:event_id/item/:item_id', function(req, res){
         // console.log("test!");
         // console.log("user id is " +req.query.user_id);
         // console.log("event id is " + req.params.event_id);
