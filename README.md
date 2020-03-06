@@ -1,5 +1,5 @@
 # Billing Manager
-![](manager.gif)
+![](billingManager.gif)
 
 ## Description
 **A tracking shared expenses social network**
